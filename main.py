@@ -54,7 +54,7 @@ class WindowItem:
 
     def retrieve_or_save_icon(self, icon):
         # Some app have crazy names, ensure we use something reasonable
-        file_name = hashlib.sha224(self.app_name).hexdigest()
+        file_name = hashlib.sha224(self.app_name.encode()).hexdigest()
         icon_full_path = CACHE_DIR + '/' + file_name + '.png'
         if not os.path.isfile(icon_full_path):
             icon.savev(icon_full_path, 'png', [], [])
@@ -69,7 +69,7 @@ class WindowItem:
 
     def is_matching(self, keyword):
         # Assumes UTF-8 input
-        ascii_keyword = keyword.encode().lower()
+        ascii_keyword = keyword.encode().lower().decode("utf-8")
         return ascii_keyword in self.app_name.lower() or ascii_keyword in self.title.lower()
 
 
